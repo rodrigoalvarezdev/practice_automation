@@ -2,10 +2,20 @@ package fullselenium;
 
 import org.testng.annotations.Test;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+
+import commons.Commons;
 import dataProviders.DataProviderDemo;
 import practice_tetng.Util;
+import utils.ExtentManager;
 
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
@@ -21,12 +31,14 @@ import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterTest;
 
-public class Fullselenium {
-  private WebDriver driver;
+public class Fullselenium extends Commons {
+ 
   private Select select;
   Util util;
- 
+  
   
   By sel = By.id("oldSelectMenu");
   By multisel = By.id("cars");
@@ -56,16 +68,10 @@ public class Fullselenium {
   By firstnameForm = By.id("firstName");
   By lastnameForm = By.id("lastName");
   By footer = By.xpath("//*[@id=\"footer\"]/div/section[4]/div/a");
-	@BeforeMethod(alwaysRun = true)
-  public void beforeMethod() {
-		System.setProperty("webdriver.chrome.driver", "./src/test/resources/drivers/chromedriver.exe");
-		driver = new ChromeDriver();
-		driver.manage().window().maximize();
-		
-		util = new Util();
-  }
+   	
+
   
-  @Test(enabled = false, groups = {"segundo"})
+  @Test(enabled = true, groups = "primero")
   public void f() throws InterruptedException {
 	  driver.get("https://demoqa.com/select-menu");
 	  //driver.findElement(header).click();
@@ -90,7 +96,7 @@ public class Fullselenium {
 	  }
 	  
   }
-  @Test(enabled = true, groups = {"primero"})
+  @Test(enabled = false, groups = {"primero"})
   public void checks () throws InterruptedException {
 	  driver.get("https://demoqa.com/checkbox");
 	  Thread.sleep(2000);
@@ -102,7 +108,7 @@ public class Fullselenium {
 	  Thread.sleep(2000);
   }
   
-  @Test(enabled = true, groups = {"primero"})
+  @Test(enabled = false, groups = {"primero"})
   public void frames() throws InterruptedException {
 	  driver.get("https://demoqa.com/frames");
 	  driver.switchTo().frame("frame1");
@@ -187,7 +193,7 @@ public class Fullselenium {
 	  Thread.sleep(3000);
   }
   
-  @Test(enabled = true)
+  @Test(enabled = true, groups = "segundo")
   public void table() throws InterruptedException {
 	  driver.get("https://demoqa.com/webtables");
 	  //driver.findElement(util.searchEmailDelete("cierra@example.com")).click();
@@ -206,12 +212,4 @@ public class Fullselenium {
 	  Assert.assertTrue(foot.isDisplayed());
 	  Thread.sleep(5000);
   }
-  
-  @AfterMethod(alwaysRun = true)
-  public void afterMethod(ITestResult result) {
-	  Reporter.log(null, result.getStatus());
-	  Reporter.log(result.getName());
-	  driver.quit();
-  }
-
 }
